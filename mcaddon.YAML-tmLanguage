@@ -100,7 +100,7 @@ repository:
       match: (?<=")(camera)(?="\s*:)
 
     - comment: Components and Component Groups
-      name: entity.name.section.components.mcaddon
+      name: keyword.control.components.mcaddon
       match: (\b(component(s|_groups)\b))
     
     - comment: Trade Object Definitions
@@ -115,9 +115,13 @@ repository:
       name: entity.name.section.filter.mcaddon
       match: (\b(filters)\b)
 
-    - comment: Events
-      name: entity.name.section.components.mcaddon
-      match: (\b(event(s)?)\b)
+    - comment: Event keyword
+      name: entity.name.type.events.mcaddon
+      match: (\b(event)\b)
+
+    - comment: Events keyword
+      name: keyword.control.events.mcaddon
+      match: (\b(events)\b)
 
     - comment: Json File Path
       name: variable.other.filepath.mcaddon
@@ -133,7 +137,7 @@ repository:
 
     - comment: Object Parameters
       name: variable.parameter.object.mcaddon
-      match: (?<=\")(.)+(?=\" *\:)
+      match: (?<=\")([^"])+(?=\" *\:)
 
     - comment: Strings
       name: string.quoted.double.mcaddon

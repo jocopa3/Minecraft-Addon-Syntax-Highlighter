@@ -236,7 +236,7 @@
 					<key>match</key>
 					<string>(\b(component(s|_groups)\b))</string>
 					<key>name</key>
-					<string>entity.name.section.components.mcaddon</string>
+					<string>keyword.control.components.mcaddon</string>
 				</dict>
 				<dict>
 					<key>comment</key>
@@ -264,11 +264,19 @@
 				</dict>
 				<dict>
 					<key>comment</key>
-					<string>Events</string>
+					<string>Event keyword</string>
 					<key>match</key>
-					<string>(\b(event(s)?)\b)</string>
+					<string>(\b(event)\b)</string>
 					<key>name</key>
-					<string>entity.name.section.components.mcaddon</string>
+					<string>entity.name.type.events.mcaddon</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>Events keyword</string>
+					<key>match</key>
+					<string>(\b(events)\b)</string>
+					<key>name</key>
+					<string>keyword.control.events.mcaddon</string>
 				</dict>
 				<dict>
 					<key>comment</key>
@@ -298,7 +306,7 @@
 					<key>comment</key>
 					<string>Object Parameters</string>
 					<key>match</key>
-					<string>(?&lt;=\")(.)+(?=\" *\:)</string>
+					<string>(?&lt;=\")([^"])+(?=\" *\:)</string>
 					<key>name</key>
 					<string>variable.parameter.object.mcaddon</string>
 				</dict>

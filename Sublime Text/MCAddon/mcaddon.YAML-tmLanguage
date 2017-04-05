@@ -1,0 +1,207 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+
+# Note: This highlighter is based on:
+# https://github.com/sublimehq/Packages/blob/master/JavaScript/JSON.sublime-syntax
+name: Minecraft Addon
+scopeName: source.mcaddon
+fileTypes: []
+uuid: a0c7e4ae-079d-4d09-9b1d-5379c586f67a
+
+patterns:
+- include: '#value'
+
+repository:
+  array:
+    name: meta.structure.array.json
+    begin: \[
+    beginCaptures:
+      '0': {name: punctuation.definition.array.begin.json}
+    end: \]
+    endCaptures:
+      '0': {name: punctuation.definition.array.end.json}
+    patterns:
+    - include: '#value'
+    - name: punctuation.separator.array.json
+      match: ','
+    - name: invalid.illegal.expected-array-separator.json
+      match: '[^\s\]]'
+
+  comments:
+    patterns:
+    - name: comment.block.documentation.json
+      begin: /\*\*
+      end: \*/
+      captures:
+        '0': {name: punctuation.definition.comment.json}
+    - name: comment.block.json
+      begin: /\*
+      end: \*/
+      captures:
+        '0': {name: punctuation.definition.comment.json}
+    - name: comment.line.double-slash.js
+      match: (//).*$\n?
+      captures:
+        '1': {name: punctuation.definition.comment.json}
+
+  constant:
+    name: constant.language.json
+    match: \b(?:true|false|null)\b
+
+  mcaddon:
+    begin: \"
+    beginCaptures:
+      '0': {name: punctuation.definition.string.begin.json}
+    end: \"
+    endCaptures:
+      '0': {name: punctuation.definition.string.end.json}
+    patterns:
+    - comment: Minecraft Keyword
+      name: keyword.other.minecraft.mcaddon
+      match: (\b(minecraft)\b)
+
+    - comment: Minecraft Keyword
+      name: keyword.other.formatversion.mcaddon
+      match: (\b(format_version)\b)
+
+    - comment: Minecraft Item/Block Data Value
+      name: constant.numeric.mcaddon
+      match: ((?<=:)[0-9]+(?=\"))
+
+    - comment: Minecraft Object Parameter
+      name: entity.name.minecraftParam.mcaddon
+      match: (?<=minecraft:)([^"]+)(?=")(?!"\s*[,\n])
+
+    - comment: Minecraft Value Parameter
+      name: variable.parameter.minecraftParam.mcaddon
+      match: (?<=minecraft:)([0-9a-zA-Z_\.]+)
+
+    - comment: Invalid Minecraft Parameter
+      name: invalid.illegal.minecraft.mcaddon
+      match: (?<=minecraft:)([0-9a-zA-Z_\.]+(?!["]))
+
+    - comment: Definitions
+      name: support.function.definition.mcaddon
+      match: (\b(items|family)\b)
+
+    - comment: Event Functions
+      name: support.function.eventFunction.mcaddon
+      match: (\b(randomize|add|remove|sequence)\b)
+
+    - comment: Loot Functions
+      name: support.function.loot.mcaddon
+      match: (\b(functions|levels|count|rolls)\b)
+
+    - comment: Trade Parameters
+      name: support.function.trades.mcaddon
+      match: (\b(wants|gives|quantity)\b)
+
+    - comment: Item Definitions
+      name: support.function.items.mcaddon
+      match: (\b(effects|enchanted_effects|food|seed)\b)
+
+    - comment: Item camera definition
+      name: support.function.items.camera.mcaddon
+      match: (?<=")(camera)(?="\s*:)
+
+    - comment: Components and Component Groups
+      name: keyword.control.components.mcaddon
+      match: (\b(component(s|_groups)\b))
+    
+    - comment: Trade Object Definitions
+      name: entity.name.stuff.mcaddon
+      match: (\b(pools|entries|function|tiers|trades)\b)
+
+    - comment: Entity type
+      name: entity.name.section.entityType.mcaddon
+      match: (\b(entity_types)\b)
+
+    - comment: Filters
+      name: entity.name.section.filter.mcaddon
+      match: (\b(filters)\b)
+
+    - comment: Event keyword
+      name: entity.name.type.events.mcaddon
+      match: (\b(event)\b)
+
+    - comment: Events keyword
+      name: keyword.control.events.mcaddon
+      match: (\b(events)\b)
+
+    - comment: Json File Path
+      name: variable.other.filepath.mcaddon
+      match: (?i)(?<=")[a-zA-Z0-9_/\\\.]+\.(json)(?=")
+
+    - comment: Array Definition
+      name: storage.type.arrayDefinition.mcaddon
+      match: (?<=")([a-zA-Z0-9_:\+]+)(?="\s*:\s*\[)
+
+    - comment: Object Definition
+      name: entity.name.objectDefinition.mcaddon
+      match: (?<=")([a-zA-Z0-9_:\+]+)(?="\s*:\s*\{)
+
+    - comment: Object Parameters
+      name: variable.parameter.object.mcaddon
+      match: (?<=\")([^"])+(?=\" *\:)
+
+    - comment: Strings
+      name: string.quoted.double.mcaddon
+      match: (?<=")[^"]+(?="\s*)
+
+  number:
+    name: constant.numeric.json
+    match: |-
+      (?x)        # turn on extended mode
+      -?        # an optional minus
+      (?:
+        0       # a zero
+        |       # ...or...
+        [1-9]   # a 1-9 character
+        \d*     # followed by zero or more digits
+      )
+      (?:
+        (?:
+          \.    # a period
+          \d+   # followed by one or more digits
+        )?
+        (?:
+          [eE]  # an e character
+          [+-]? # followed by an option +/-
+          \d+   # followed by one or more digits
+        )?      # make exponent optional
+      )?        # make decimal portion optional
+
+  object:
+    name: meta.structure.dictionary.json
+    begin: \{
+    beginCaptures:
+      '0': {name: punctuation.definition.dictionary.begin.json}
+    end: \}
+    endCaptures:
+      '0': {name: punctuation.definition.dictionary.end.json}
+    patterns:
+    - comment: the JSON object key
+      include: '#mcaddon'
+    - include: '#comments'
+    - name: meta.structure.dictionary.value.json
+      begin: ':'
+      beginCaptures:
+        '0': {name: punctuation.separator.dictionary.key-value.json}
+      end: (,)|(?=\})
+      endCaptures:
+        '1': {name: punctuation.separator.dictionary.pair.json}
+      patterns:
+      - comment: the JSON object value
+        include: '#value'
+      - name: invalid.illegal.expected-dictionary-separator.json
+        match: '[^\s,]'
+    - name: invalid.illegal.expected-dictionary-separator.json
+      match: '[^\s\}]'
+
+  value:
+    patterns:
+    - include: '#constant'
+    - include: '#number'
+    - include: '#mcaddon'
+    - include: '#array'
+    - include: '#object'
+    - include: '#comments'

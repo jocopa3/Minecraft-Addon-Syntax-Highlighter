@@ -1,0 +1,26 @@
+{
+    "name": "mcaddon",
+    "displayName": "Minecraft Addon",
+    "description": "A syntax highlighter for Minecraft Addons",
+    "version": "0.0.1",
+    "publisher": "Jocopa3",
+    "engines": {
+        "vscode": "^1.10.0"
+    },
+    "categories": [
+        "Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "mcaddon",
+            "aliases": ["Minecraft Addon", "mcaddon"],
+            "extensions": [".json"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "mcaddon",
+            "scopeName": "source.mcaddon",
+            "path": "./syntaxes/mcaddon.tmLanguage"
+        }]
+    }
+}

@@ -46,6 +46,10 @@
 					<string>#value</string>
 				</dict>
 				<dict>
+					<key>include</key>
+					<string>#strings</string>
+				</dict>
+				<dict>
 					<key>match</key>
 					<string>,</string>
 					<key>name</key>
@@ -144,6 +148,20 @@
 			<array>
 				<dict>
 					<key>comment</key>
+					<string>UI Inherit Type</string>
+					<key>match</key>
+					<string>(?&lt;=\.)([a-zA-Z0-9_]+)(?=\")</string>
+					<key>name</key>
+					<string>support.function.uitype.mcaddon</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(\-)?\d+(\.\d+)?(\%)?(c|x|px)?(?=[\"\s-+])</string>
+					<key>name</key>
+					<string>constant.numeric.json</string>
+				</dict>
+				<dict>
+					<key>comment</key>
 					<string>Minecraft Keyword</string>
 					<key>match</key>
 					<string>(\b(minecraft)\b)</string>
@@ -189,6 +207,94 @@
 					<string>(\b(items|family)\b)</string>
 					<key>name</key>
 					<string>support.function.definition.mcaddon</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>Definitions</string>
+					<key>match</key>
+					<string>(\b(and|not|or)\b)</string>
+					<key>name</key>
+					<string>keyword.control.uilogic.mcaddon</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>UI Definition</string>
+					<key>match</key>
+					<string>(?&lt;=\")([a-zA-Z0-9_]+)(?=\@)</string>
+					<key>name</key>
+					<string>keyword.other.uidefinition.mcaddon</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>UI Controls</string>
+					<key>match</key>
+					<string>([@$#|])</string>
+					<key>name</key>
+					<string>constant.numeric.uicontrol.mcaddon</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>Parenthesis</string>
+					<key>match</key>
+					<string>([\(\)])</string>
+					<key>name</key>
+					<string>meta.parenthesis.mcaddon</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>Hyperlink</string>
+					<key>match</key>
+					<string>(http|www)[^"]+</string>
+					<key>name</key>
+					<string>meta.hyperlink.mcaddon</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>File Path</string>
+					<key>match</key>
+					<string>(([a-zA-Z0-9_]+)\/)+[a-zA-Z0-9_\.]+</string>
+					<key>name</key>
+					<string>meta.filepath.mcaddon</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>UI Namespace</string>
+					<key>match</key>
+					<string>(\bnamespace\b)</string>
+					<key>name</key>
+					<string>keyword.other.uinamespace</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>UI Namespace Type</string>
+					<key>match</key>
+					<string>(?&lt;=\@)([a-zA-Z0-9_]+)(?=[\.\"])</string>
+					<key>name</key>
+					<string>entity.name.namespae.mcaddon</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>UI Variable</string>
+					<key>match</key>
+					<string>(?&lt;=\$)([a-zA-Z0-9_]+)</string>
+					<key>name</key>
+					<string>entity.name.uivar.mcaddon</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>UI Type</string>
+					<key>match</key>
+					<string>(?&lt;=\#)([a-zA-Z0-9_]+)</string>
+					<key>name</key>
+					<string>variable.parameter.uitype.mcaddon</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>UI Default</string>
+					<key>match</key>
+					<string>(?&lt;=\|)(\b(default)\b)</string>
+					<key>name</key>
+					<string>keyword.other.uidefault.mcaddon</string>
 				</dict>
 				<dict>
 					<key>comment</key>
@@ -314,7 +420,7 @@
 					<key>comment</key>
 					<string>Strings</string>
 					<key>match</key>
-					<string>(?&lt;=")[^"]+(?="\s*)</string>
+					<string>(?&lt;=\")[^"]+(?=")</string>
 					<key>name</key>
 					<string>string.quoted.double.mcaddon</string>
 				</dict>
@@ -341,6 +447,9 @@
     [+-]? # followed by an option +/-
     \d+   # followed by one or more digits
   )?      # make exponent optional
+  (?:
+    (px|%(c|x)?)  # % or px
+  )? 
 )?        # make decimal portion optional</string>
 			<key>name</key>
 			<string>constant.numeric.json</string>

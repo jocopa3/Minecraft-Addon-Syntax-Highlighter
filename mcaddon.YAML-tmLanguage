@@ -1,7 +1,4 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-
-# Note: This highlighter is based on:
-# https://github.com/sublimehq/Packages/blob/master/JavaScript/JSON.sublime-syntax
 name: Minecraft Addon
 scopeName: source.mcaddon
 fileTypes: []
@@ -21,6 +18,7 @@ repository:
       '0': {name: punctuation.definition.array.end.json}
     patterns:
     - include: '#value'
+    - include: '#strings'
     - name: punctuation.separator.array.json
       match: ','
     - name: invalid.illegal.expected-array-separator.json
@@ -55,93 +53,110 @@ repository:
     endCaptures:
       '0': {name: punctuation.definition.string.end.json}
     patterns:
+    - comment: UI Inherit Type
+      name: support.function.uitype.mcaddon
+      match: (?<=\.)([a-zA-Z0-9_]+)(?=\")
+    - name: constant.numeric.json
+      match: (\-)?\d+(\.\d+)?(\%)?(c|x|px)?(?=[\"\s-+])
     - comment: Minecraft Keyword
       name: keyword.other.minecraft.mcaddon
       match: (\b(minecraft)\b)
-
     - comment: Minecraft Keyword
       name: keyword.other.formatversion.mcaddon
       match: (\b(format_version)\b)
-
     - comment: Minecraft Object Parameter
       name: entity.name.minecraftParam.mcaddon
       match: (?<=minecraft:)([^"]+)(?=")(?!"\s*[,\n])
-
     - comment: Minecraft Object Parameter
       name: variable.parameter.minecraftParam.mcaddon
       match: (?<=minecraft:)([0-9a-zA-Z_\.]+)
-
     - comment: Invalid Minecraft Parameter
       name: invalid.illegal.minecraft.mcaddon
       match: (?<=minecraft:)([0-9a-zA-Z_\.]+(?!["]))
-
     - comment: Definitions
       name: support.function.definition.mcaddon
       match: (\b(items|family)\b)
-
+    - comment: Definitions
+      name: keyword.control.uilogic.mcaddon
+      match: (\b(and|not|or)\b)
+    - comment: UI Definition
+      name: keyword.other.uidefinition.mcaddon
+      match: (?<=\")([a-zA-Z0-9_]+)(?=\@)
+    - comment: UI Controls
+      name: constant.numeric.uicontrol.mcaddon
+      match: ([@$#|])
+    - comment: Parenthesis
+      name: meta.parenthesis.mcaddon
+      match: ([\(\)])
+    - comment: Hyperlink
+      name: meta.hyperlink.mcaddon
+      match: (http|www)[^"]+
+    - comment: File Path
+      name: meta.filepath.mcaddon
+      match: (([a-zA-Z0-9_]+)\/)+[a-zA-Z0-9_\.]+
+    - comment: UI Namespace
+      name: keyword.other.uinamespace
+      match: (\bnamespace\b)
+    - comment: UI Namespace Type
+      name: entity.name.namespae.mcaddon
+      match: (?<=\@)([a-zA-Z0-9_]+)(?=[\.\"])
+    - comment: UI Variable
+      name: entity.name.uivar.mcaddon
+      match: (?<=\$)([a-zA-Z0-9_]+)
+    - comment: UI Type
+      name: variable.parameter.uitype.mcaddon
+      match: (?<=\#)([a-zA-Z0-9_]+)
+    - comment: UI Default
+      name: keyword.other.uidefault.mcaddon
+      match: (?<=\|)(\b(default)\b)
     - comment: Event Functions
       name: support.function.eventFunction.mcaddon
       match: (\b(randomize|add|remove|sequence)\b)
-
     - comment: Loot Functions
       name: support.function.loot.mcaddon
       match: (\b(functions|levels|count|rolls)\b)
-
     - comment: Trade Parameters
       name: support.function.trades.mcaddon
       match: (\b(wants|gives|quantity)\b)
-
     - comment: Item Definitions
       name: support.function.items.mcaddon
       match: (\b(effects|enchanted_effects|food|seed)\b)
-
     - comment: Item camera definition
       name: support.function.items.camera.mcaddon
       match: (?<=")(camera)(?="\s*:)
-
     - comment: Components and Component Groups
       name: keyword.control.components.mcaddon
       match: (\b(component(s|_groups)\b))
-    
     - comment: Trade Object Definitions
       name: entity.name.stuff.mcaddon
       match: (\b(pools|entries|function|tiers|trades)\b)
-
     - comment: Entity type
       name: entity.name.section.entityType.mcaddon
       match: (\b(entity_types)\b)
-
     - comment: Filters
       name: entity.name.section.filter.mcaddon
       match: (\b(filters)\b)
-
     - comment: Event keyword
       name: entity.name.type.events.mcaddon
       match: (\b(event)\b)
-
     - comment: Events keyword
       name: keyword.control.events.mcaddon
       match: (\b(events)\b)
-
     - comment: Json File Path
       name: variable.other.filepath.mcaddon
       match: (?i)(?<=")[a-zA-Z0-9_/\\\.]+\.(json)(?=")
-
     - comment: Array Definition
       name: storage.type.arrayDefinition.mcaddon
       match: (?<=")([a-zA-Z0-9_:\+]+)(?="\s*:\s*\[)
-
     - comment: Object Definition
       name: entity.name.objectDefinition.mcaddon
       match: (?<=")([a-zA-Z0-9_:\+]+)(?="\s*:\s*\{)
-
     - comment: Object Parameters
       name: variable.parameter.object.mcaddon
       match: (?<=\")([^"])+(?=\" *\:)
-
     - comment: Strings
       name: string.quoted.double.mcaddon
-      match: (?<=")[^"]+(?="\s*)
+      match: (?<=\")[^"]+(?=")
 
   number:
     name: constant.numeric.json
@@ -164,6 +179,9 @@ repository:
           [+-]? # followed by an option +/-
           \d+   # followed by one or more digits
         )?      # make exponent optional
+        (?:
+          (px|%(c|x)?)  # % or px
+        )? 
       )?        # make decimal portion optional
 
   object:
